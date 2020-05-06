@@ -11,11 +11,6 @@ export default class Navbar extends Component {
         <div className="collpase navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <Link to="/anime/edit" className="nav-link">
-                Edit AnimeList
-              </Link>
-            </li>
-            <li className="navbar-item">
               <Link to="/anime/create" className="nav-link">
                 Create AnimeList
               </Link>

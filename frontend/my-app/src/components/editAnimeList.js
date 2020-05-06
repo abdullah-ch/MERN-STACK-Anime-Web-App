@@ -5,27 +5,17 @@ export default class EditAnimeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
       animeName: "",
     };
 
-    this.onChangeId = this.onChangeId.bind(this);
     this.onEditAnimeName = this.onEditAnimeName.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onChangeId(event) {
-    this.setState({
-      id: event.target.value,
-    });
-    console.log("ID is ", this.state.id);
   }
 
   onEditAnimeName(event) {
     this.setState({
       animeName: event.target.value,
     });
-    console.log("updated anime name is", this.state.animeName);
   }
   onSubmit(event) {
     event.preventDefault();
@@ -33,8 +23,12 @@ export default class EditAnimeList extends Component {
       animeName: this.state.animeName,
     };
 
+    console.log("The ID is ", this.props.match.params._id);
+    const path = window.location.pathname.split("/");
+    const id = path[path.length - 1];
+
     axios
-      .put("http://localhost:4000/animes/update/" + this.state.id, anime)
+      .put("http://localhost:4000/animes/update/" + id, anime)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   }
@@ -43,14 +37,6 @@ export default class EditAnimeList extends Component {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <h1>Enter the Anime ID </h1>
-          <input
-            className="form-control"
-            type="text"
-            onChange={this.onChangeId}
-            value={this.state.id}
-            placeholder="5eac782c2d299310a5e13543"
-          />
           <h1>Enter the Anime Name </h1>
           <br></br>
           <input

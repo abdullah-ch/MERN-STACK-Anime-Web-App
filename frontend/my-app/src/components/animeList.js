@@ -1,5 +1,26 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
+
+const Anime = (props) => (
+  <tr>
+    <td> {props.anime.animeName}</td>
+    <td>
+      <Link to={"/anime/edit/" + props.anime._id}>
+        <button type="button" class="btn btn-primary">Edit</button>
+      </Link> 
+      <button
+        type="button"
+        class="btn btn-danger"
+        onClick={() => {
+          props.handleDelete(props.anime._id);
+        }}
+      >
+        Delete
+      </button>
+    </td>
+  </tr>
+);
 
 export default class AnimeList extends Component {
   constructor(props) {
@@ -19,9 +40,8 @@ export default class AnimeList extends Component {
       })
       .catch((err) => console.log(err));
   }
-  handleDelete(event) {
-    const id = event.target.value;
-    console.log("ID is ", event.target.value);
+  handleDelete(id) {
+    console.log("ID is ", id);
     axios
       .delete("http://localhost:4000/animes/delete/" + id)
       .then((res) => console.log(res.data));
@@ -30,32 +50,29 @@ export default class AnimeList extends Component {
       animes: this.state.animes.filter((anime) => anime._id !== id),
     });
   }
+
+  animeList() {
+    return this.state.animes.map((animeObject) => {
+      return (
+        <Anime
+          anime={animeObject}
+          handleDelete={this.handleDelete}
+          key={animeObject._id}
+        />
+      );
+    });
+  }
+
   render() {
     return (
       <div>
         <table class="table table-striped table-dark">
           <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Anime Name</th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.animes.map((anime) => (
-              <tr key={anime._id}>
-                <td>{anime._id}</td>
-                <td>{anime.animeName}</td>
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  onClick={this.handleDelete}
-                  value={anime._id}
-                >
-                  Delete
-                </button>
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{this.animeList()}</tbody>
         </table>
       </div>
     );

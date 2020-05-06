@@ -21,7 +21,7 @@ export default class CreateAnimeList extends Component {
   onSubmit(event) {
     event.preventDefault();
     const anime = {
-      animeName: this.state.animeName,
+      animeName : this.state.animeName,
     };
         console.log(anime);
 

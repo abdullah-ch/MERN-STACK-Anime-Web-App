@@ -6,7 +6,6 @@ import AnimeList from "./components/animeList";
 import CreateAnimeList from "./components/createAnimeList";
 import EditAnimeList from "./components/editAnimeList";
 
-
 function App() {
   return (
     <Router>
